@@ -1,0 +1,15 @@
+﻿@using Domain.Entities;
+@model IEnumerable<Period>
+
+@{
+    ViewBag.Title = "Расписание";
+}
+
+<h2>Расписание</h2>
+@foreach (var period in Model)
+{
+    <div>
+        <p> @period.Description</p>
+        <h4> @period.Duration</h4>
+    </div>
+}
