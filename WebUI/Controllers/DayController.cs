@@ -12,6 +12,14 @@ namespace WebUI.Controllers
     {
         private IRepository _repository;
 
+        private int CurrentDayId
+        {
+            get
+            {
+                return 3;
+            }
+        }
+
         public DayController(IRepository repository)
         {
             _repository = repository;
@@ -19,7 +27,11 @@ namespace WebUI.Controllers
 
         public ViewResult Schedule()
         {
-            return View(_repository.Periods);
+            return View(
+                _repository
+                .Days
+                .Where(p => p.DayID == CurrentDayId)
+                .First());
         }
     }
 }

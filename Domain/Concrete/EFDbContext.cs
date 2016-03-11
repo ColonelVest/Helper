@@ -15,5 +15,11 @@ namespace Domain.Concrete
             get;
             set;
         }
+
+        public DbSet<Day> Days
+        {
+            get;
+            set;
+        }
     }
 }

@@ -6,39 +6,33 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Period
+    public class Day
     {
-        public int PeriodId
+        public List<Period> Periods
         {
             get;
             set;
         }
 
-        public int DayId
+        public int DayID
         {
             get;
             set;
         }
 
-        public int Number
+        public string UserID
         {
             get;
             set;
         }
 
-        public string Comment
+        public bool IsMade
         {
             get;
             set;
         }
 
-        public int Duration
-        {
-            get;
-            set;
-        }
-
-        public string Description
+        public DateTime StartDate
         {
             get;
             set;

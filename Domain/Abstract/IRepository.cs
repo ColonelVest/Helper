@@ -9,5 +9,10 @@ namespace Domain.Abstract
         {
             get;
         }
+
+        IEnumerable<Day> Days
+        {
+            get;
+        }
     }
 }
