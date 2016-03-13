@@ -11,12 +11,17 @@ namespace WebUI.Controllers
     public class DayController : Controller
     {
         private IRepository _repository;
+        private int _currentDayId;
 
-        private int CurrentDayId
+        public int CurrentDayId
         {
             get
             {
                 return 3;
+            }
+            set
+            {
+                _currentDayId = value;
             }
         }
 
@@ -25,12 +30,18 @@ namespace WebUI.Controllers
             _repository = repository;
         }
 
-        public ViewResult Schedule()
+        [HttpPost]
+        public void ConfirmPeriodEnd(int periodId)
+        {
+            _repository.Periods.Where(p => p.PeriodId == periodId).First().IsMade = true;
+        }
+
+        public ViewResult Schedule(int dayId = 3)
         {
             return View(
                 _repository
                 .Days
-                .Where(p => p.DayID == CurrentDayId)
+                .Where(p => p.DayID == dayId)
                 .First());
         }
     }

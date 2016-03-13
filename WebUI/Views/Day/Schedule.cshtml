@@ -5,26 +5,44 @@
     ViewBag.Title = "Расписание";
 }
 
-<h2>Расписание</h2>
+<h2 class="text-center">Расписание</h2>
 <div class="well">
-    <table class="table">
+
+</div>
+<div class="well">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>#</th>
                 <th>Начало</th>
                 <th>Окончание</th>
                 <th>Описание</th>
+                <th></th>
                 <th>Комментарий</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var period in Model.Periods)
             {
-                <tr>
+                <tr class="@(period.IsMade ? "success" : "main" )">
                     <td>@period.Number</td>
-                    <td></td>
-                    <td></td>
+                    <td>@Model.StartDate.AddMinutes(Model.Periods // люто плохо, поменяю 
+                       .Where(p => p.Number < period.Number)
+                       .Sum(p => p.Duration)).ToShortTimeString()</td>
+                    <td>@Model.StartDate.AddMinutes(Model.Periods.
+                       Where(p => p.Number <= period.Number)
+                       .Sum(p => p.Duration)).ToShortTimeString()</td>
                     <td>@period.Description</td>
+                    <td>
+                        @using (Html.BeginForm("ConfirmPeriodEnd"))
+                        {
+                            @Html.Hidden("periodId", period.PeriodId)
+                            <button style="visibility: @(period.IsMade ? "hidden" : "visible")">
+                                <i style="color:green" class="glyphicon glyphicon-ok"> </i>
+                            </button>
+                        }
+                        
+                    </td>
                     <td>@period.Comment</td>
                 </tr>
             }

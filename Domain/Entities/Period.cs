@@ -32,6 +32,12 @@ namespace Domain.Entities
             set;
         }
 
+        public bool IsMade
+        {
+            get;
+            set;
+        }
+
         public int Duration
         {
             get;
