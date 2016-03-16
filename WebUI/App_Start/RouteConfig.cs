@@ -16,8 +16,8 @@ namespace WebUI
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Day", action = "Schedule", id = UrlParameter.Optional }
-            );
+                defaults: new { controller = "Day", action = "Index", id = UrlParameter.Optional });
+
         }
     }
 }

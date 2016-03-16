@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
@@ -32,7 +33,13 @@ namespace Domain.Entities
             set;
         }
 
-        public DateTime StartDate
+        public DateTime StartTime
+        {
+            get;
+            set;
+        }
+
+        public DateTime Date
         {
             get;
             set;

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Abstract
@@ -14,5 +15,9 @@ namespace Domain.Abstract
         {
             get;
         }
+
+        void ConfirmEndPeriod(int periodId);
+        void InsertPeriod(Period period);
+        void AddSchedule(Day day);
     }
 }

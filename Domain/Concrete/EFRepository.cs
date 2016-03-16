@@ -29,6 +29,39 @@ namespace Domain.Concrete
             }
         }
 
+        public void ConfirmEndPeriod(int periodId)
+        {
+            Period period = _context.Periods.FirstOrDefault(p => p.PeriodId == periodId);
+            if (period != null)
+            {
+                period.IsMade = true;
+                _context.SaveChanges();
+            }
+            
+        }
+
+        public void InsertPeriod(Period period)
+        {
+            Insert(period);
+        }
+
+        public void AddSchedule(Day day)
+        {
+            if (day.DayID != 0)
+            {
+                Day dbDay = _context.Days.Find(day.DayID);
+                if (dbDay != null)
+                {
+                    dbDay.StartTime = day.StartTime;
+                }
+            }
+            else
+            {
+                Insert(day);
+            }
+            _context.SaveChanges();
+        }
+
         public static void Insert<TEntity>(TEntity entity) where TEntity : class
         {
             _context.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
@@ -36,6 +69,7 @@ namespace Domain.Concrete
             _context.Entry(entity).State = EntityState.Added;
             _context.SaveChanges();
         }
+
 
         /// <summary>
         /// Запись нескольких полей в БД

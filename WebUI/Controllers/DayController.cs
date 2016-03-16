@@ -5,44 +5,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
-    public class DayController : Controller
+    public abstract class DayController : Controller
     {
-        private IRepository _repository;
-        private int _currentDayId;
-
-        public int CurrentDayId
-        {
-            get
-            {
-                return 3;
-            }
-            set
-            {
-                _currentDayId = value;
-            }
-        }
+        protected IRepository _repository;
 
         public DayController(IRepository repository)
         {
             _repository = repository;
         }
 
-        [HttpPost]
-        public void ConfirmPeriodEnd(int periodId)
+
+        protected DateTime GetCurrentDate(string currentDate)
         {
-            _repository.Periods.Where(p => p.PeriodId == periodId).First().IsMade = true;
+            string[] CurrentDateArray = currentDate.Split(new char[] { '.' });
+            int month = int.Parse(CurrentDateArray[1]);
+            if (month < 1 || month > 12)
+            {
+                month = DateTime.Now.Month;
+            }
+            int year = int.Parse(CurrentDateArray[2]);
+            if (year < 2016 || year > 2050)
+            {
+                year = DateTime.Now.Year;
+            }
+            int day = int.Parse(CurrentDateArray[0]);
+            if (day < 1 || day > DateTime.DaysInMonth(year, month))
+            {
+                day = DateTime.Now.Day;
+            }
+            return new DateTime(year, month, day);
         }
 
-        public ViewResult Schedule(int dayId = 3)
-        {
-            return View(
-                _repository
-                .Days
-                .Where(p => p.DayID == dayId)
-                .First());
-        }
+        
+
+        public abstract ViewResult Index(string date);
     }
 }

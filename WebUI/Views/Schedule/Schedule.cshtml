@@ -1,0 +1,90 @@
+﻿@using WebUI.Models;
+@model ScheduleModel
+
+@{
+    ViewBag.Title = "Расписание";
+}
+<div class="">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="@Url.Action("schedule")">Расписание</a>
+        </li>
+        <li>
+            <a href="#">To-do list</a>
+        </li>
+        <li>
+            <a href="#">Заметки</a>
+        </li>
+    </ul>
+</div>
+<h2 class="text-center">Расписание</h2>
+<div class="well well-lg">
+    @using (Html.BeginForm("SaveNewPeriod", "Schedule"))
+    {
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        @Html.Hidden("number", Model.Day.Periods.Count + 1)
+        <label>
+            Длительность @Html.TextBoxFor(x => x.Period.Duration)
+        </label>
+        <label>
+            Описание @Html.TextBoxFor(x => x.Period.Description)
+        </label>
+        <button>
+            <i class="glyphicon glyphicon-plus-sign"></i>
+        </button>
+    }
+    
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Описание</th>
+                <th></th>
+                <th>Комментарий</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var period in Model.Day.Periods)
+            {
+                <tr class="@(period.IsMade ? "success" : "main" )">
+                    <td>@period.Number</td>
+                    <td>@Model.Day.StartTime.AddMinutes(Model.Day.Periods // люто плохо, поменяю 
+                        .Where(p => p.Number < period.Number)
+                        .Sum(p => p.Duration)).ToShortTimeString()</td>
+                    <td>@Model.Day.StartTime.AddMinutes(Model.Day.Periods.
+                        Where(p => p.Number <= period.Number)
+                        .Sum(p => p.Duration)).ToShortTimeString()</td>
+                    <td>@period.Description</td>
+                    <td>
+                        @using (Html.BeginForm("ConfirmPeriodEnd", "Schedule"))
+                        {
+                            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                            @Html.Hidden("periodId", period.PeriodId)
+                            <button style="visibility: @(period.IsMade ? "hidden" : "visible")">
+                                <i style="color:green" class="glyphicon glyphicon-ok"> </i>
+                            </button>
+                        }
+                    </td>
+                    <td>@period.Comment</td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>
+<div class="well" id="day-form">
+    <h3>Добавить расписание</h3>
+    @using (Html.BeginForm("CreateSchedule", "Schedule"))
+    {
+        @Html.Hidden("date", Model.Day.Date)
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        <label>
+            Время начала
+            <input type="time" name="startTime" />
+        </label>
+        <input type="submit" value="Создать" class="btn btn-primary btn-sm" />
+    }
+</div>

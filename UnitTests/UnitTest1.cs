@@ -45,9 +45,9 @@ namespace UnitTests
         public void CanSelectDay()
         {
             DayController controller = new DayController(GetDayMock().Object);
-            controller.CurrentDayId = 2;
 
-            Day result = (Day)controller.Schedule(2).Model;
+            string date = "10.01.2010";
+            Day result = (Day)controller.Index(date).Model;
 
             Assert.IsTrue(result.DayID == 2);
             Assert.AreEqual(result.Periods[2].PeriodId, 31);
