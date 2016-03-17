@@ -6,6 +6,7 @@ using Domain.Entities;
 using System.Collections.Generic;
 using WebUI.Controllers;
 using WebUI.Models;
+using System.Web.Mvc;
 
 namespace UnitTests
 {
@@ -76,7 +77,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void GetCurrentDateTest()
+        public void GettingCurrentDateTest()
         {
             ScheduleController controller = new ScheduleController(GetDayMock().Object);
 
@@ -87,5 +88,58 @@ namespace UnitTests
             Assert.AreEqual(result, dt);
         }
 
+        [TestMethod]
+        public void ConfirmingPeriodTest()
+        {
+            Mock<IRepository> mock = GetPeriodMock();
+            ScheduleController controller = new ScheduleController(mock.Object);
+
+            int periodId = 2;
+            string url = "/schedule/index";
+            RedirectResult result = controller.ConfirmPeriodEnd(periodId, url);
+
+            mock.Verify(m => m.ConfirmEndPeriod(periodId));
+
+            Assert.IsTrue(result.Permanent);
+            Assert.AreEqual("/schedule/index", result.Url);
+        }
+
+        [TestMethod]
+        public void SavingNewPeriodTest()
+        {
+            Mock<IRepository> mock = GetPeriodMock();
+            ScheduleController controller = new ScheduleController(mock.Object);
+
+            int dayId = 2;
+            string url = "/";
+            int number = 2;
+            Period period = new Period()
+            {
+                Description = "sdfsadfd",
+                Duration = 32
+            };
+            RedirectResult result = controller.SaveNewPeriod(period, number, dayId, url);
+
+            mock.Verify(m => m.InsertPeriod(period));
+
+            Assert.IsTrue(result.Permanent);
+            Assert.AreEqual("/", result.Url);
+        }
+
+        [TestMethod]
+        public void CreatingScheduleTest()
+        {
+            Mock<IRepository> mock = GetDayMock();
+            ScheduleController controller = new ScheduleController(mock.Object);
+
+            string url = "/";
+            Day day = new Day();
+            RedirectResult result = controller.CreateSchedule(day, url);
+
+            mock.Verify(m => m.AddSchedule(day));
+
+            Assert.IsTrue(result.Permanent);
+            Assert.AreEqual("/", result.Url);
+        }
     }
 }
