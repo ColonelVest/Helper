@@ -19,7 +19,7 @@ namespace WebUI.Controllers
         }
 
 
-        protected DateTime GetCurrentDate(string currentDate)
+        public DateTime GetCurrentDate(string currentDate)
         {
             string[] CurrentDateArray = currentDate.Split(new char[] { '.' });
             int month = int.Parse(CurrentDateArray[1]);
@@ -28,7 +28,7 @@ namespace WebUI.Controllers
                 month = DateTime.Now.Month;
             }
             int year = int.Parse(CurrentDateArray[2]);
-            if (year < 2016 || year > 2050)
+            if (year < 1900 || year > 2050)
             {
                 year = DateTime.Now.Year;
             }
