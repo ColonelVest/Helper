@@ -1,26 +1,12 @@
 ﻿@using WebUI.Models;
+@using WebUI.HtmlHelpers
 @model ScheduleModel
 
 @{
     ViewBag.Title = "Расписание";
 }
-@if (Model.Day.StartTime == null)
-{
+@Html.PageLinks("Schedule")
 
-}
-<div class="">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="@Url.Action("schedule")">Расписание</a>
-        </li>
-        <li>
-            <a href="#">To-do list</a>
-        </li>
-        <li>
-            <a href="#">Заметки</a>
-        </li>
-    </ul>
-</div>
 <h2 class="text-center">Расписание</h2>
 <div class="well well-lg">
     @using (Html.BeginForm("SaveNewPeriod", "Schedule"))
@@ -29,10 +15,10 @@
         @Html.Hidden("number", Model.Day.Periods.Count + 1)
         @Html.Hidden("dayId", Model.Day.DayID)
         <label>
-            Длительность @Html.TextBoxFor(x => x.Period.Duration)
+            Длительность <input style="width: 4em;" type="number" name="duration" value="0" />
         </label>
         <label>
-            Описание @Html.TextBoxFor(x => x.Period.Description)
+            Описание <input type="text" name="description" />
         </label>
         <button>
             <i class="glyphicon glyphicon-plus-sign"></i>

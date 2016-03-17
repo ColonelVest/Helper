@@ -180,10 +180,13 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DayController.cs" />
+    <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
+    <Compile Include="Controllers\ToDoListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelpers\MenuPanel.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\ScheduleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,6 +200,8 @@
     <Content Include="scripts\jquery-1.9.1.min.map" />
     <Content Include="scripts\jquery-2.2.1.min.map" />
     <Content Include="Views\Schedule\EmptySchedule.cshtml" />
+    <Content Include="Views\ToDoList\ToDoList.cshtml" />
+    <Content Include="Views\Notes\Notes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
