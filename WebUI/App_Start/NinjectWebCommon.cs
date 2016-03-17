@@ -62,7 +62,7 @@ namespace WebUI.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             System.Web.Mvc.DependencyResolver.SetResolver(new
-        Infrastructure.NinjectDependencyResolver(kernel));
+                Infrastructure.NinjectDependencyResolver(kernel));
         }        
     }
 }

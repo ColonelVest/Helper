@@ -1,0 +1,19 @@
+﻿@model WebUI.Models.ScheduleModel
+
+@{
+    ViewBag.Title = "EmptySchedule";
+}
+
+<div class="well" id="day-form">
+    <h3>Добавить расписание</h3>
+    @using (Html.BeginForm("CreateSchedule", "Schedule"))
+    {
+        @Html.Hidden("date", Model.Day.Date)
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        <label>
+            Время начала
+            <input type="time" name="startTime" />
+        </label>
+        <input type="submit" value="Создать" class="btn btn-primary btn-sm" />
+    }
+</div>

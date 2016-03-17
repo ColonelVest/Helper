@@ -4,6 +4,10 @@
 @{
     ViewBag.Title = "Расписание";
 }
+@if (Model.Day.StartTime == null)
+{
+
+}
 <div class="">
     <ul class="nav nav-tabs">
         <li class="active">
@@ -23,6 +27,7 @@
     {
         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
         @Html.Hidden("number", Model.Day.Periods.Count + 1)
+        @Html.Hidden("dayId", Model.Day.DayID)
         <label>
             Длительность @Html.TextBoxFor(x => x.Period.Duration)
         </label>
@@ -75,16 +80,4 @@
         </tbody>
     </table>
 </div>
-<div class="well" id="day-form">
-    <h3>Добавить расписание</h3>
-    @using (Html.BeginForm("CreateSchedule", "Schedule"))
-    {
-        @Html.Hidden("date", Model.Day.Date)
-        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-        <label>
-            Время начала
-            <input type="time" name="startTime" />
-        </label>
-        <input type="submit" value="Создать" class="btn btn-primary btn-sm" />
-    }
-</div>
+

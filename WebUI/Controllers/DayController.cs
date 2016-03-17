@@ -40,8 +40,6 @@ namespace WebUI.Controllers
             return new DateTime(year, month, day);
         }
 
-        
-
         public abstract ViewResult Index(string date);
     }
 }
