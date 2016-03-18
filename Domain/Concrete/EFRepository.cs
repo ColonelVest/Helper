@@ -25,7 +25,7 @@ namespace Domain.Concrete
         {
             get
             {
-                return _context.Days.Include(d => d.Periods);
+                return _context.Days.Include(p => p.Periods);
             }
         }
 

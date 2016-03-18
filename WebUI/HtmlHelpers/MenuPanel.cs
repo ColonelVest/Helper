@@ -9,8 +9,9 @@ namespace WebUI.HtmlHelpers
 {
     public static class MenuPanel
     {
-        public static MvcHtmlString PageLinks(this HtmlHelper html, string currentPage)
+        public static MvcHtmlString PageLinks(this HtmlHelper html, string currentPage, string path)
         {
+            string pageName = currentPage == null ? "schedule" : currentPage.Remove(0, 1);
             Dictionary<string, string> Pages = new Dictionary<string, string>()
             {
                 { "Schedule", "Расписание" },
@@ -24,12 +25,12 @@ namespace WebUI.HtmlHelpers
             foreach (var page in Pages)
             {
                 TagBuilder liTag = new TagBuilder("li");
-                if (page.Key == currentPage)
+                if (page.Key == currentPage.Remove(0, 1))
                 {
                     liTag.AddCssClass("active");
                 };
                 TagBuilder aTag = new TagBuilder("a");
-                aTag.MergeAttribute("href", page.Key);
+                aTag.MergeAttribute("href", page.Key + path);
                 aTag.InnerHtml = page.Value;
                 liTag.InnerHtml = aTag.ToString();
                 ulTag.InnerHtml += liTag.ToString();

@@ -5,65 +5,72 @@
 @{
     ViewBag.Title = "Расписание";
 }
-@Html.PageLinks("Schedule")
 
-<h2 class="text-center">Расписание</h2>
-<div class="well well-lg">
-    @using (Html.BeginForm("SaveNewPeriod", "Schedule"))
-    {
-        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-        @Html.Hidden("number", Model.Day.Periods.Count + 1)
-        @Html.Hidden("dayId", Model.Day.DayID)
-        <label>
-            Длительность <input style="width: 4em;" type="number" name="duration" value="0" />
-        </label>
-        <label>
-            Описание <input type="text" name="description" />
-        </label>
-        <button>
-            <i class="glyphicon glyphicon-plus-sign"></i>
-        </button>
-    }
-    
-</div>
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Начало</th>
-                <th>Окончание</th>
-                <th>Описание</th>
-                <th></th>
-                <th>Комментарий</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var period in Model.Day.Periods)
-            {
-                <tr class="@(period.IsMade ? "success" : "main" )">
-                    <td>@period.Number</td>
-                    <td>@Model.Day.StartTime.AddMinutes(Model.Day.Periods // люто плохо, поменяю 
-                        .Where(p => p.Number < period.Number)
-                        .Sum(p => p.Duration)).ToShortTimeString()</td>
-                    <td>@Model.Day.StartTime.AddMinutes(Model.Day.Periods.
-                        Where(p => p.Number <= period.Number)
-                        .Sum(p => p.Duration)).ToShortTimeString()</td>
-                    <td>@period.Description</td>
-                    <td>
-                        @using (Html.BeginForm("ConfirmPeriodEnd", "Schedule"))
-                        {
-                            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                            @Html.Hidden("periodId", period.PeriodId)
-                            <button style="visibility: @(period.IsMade ? "hidden" : "visible")">
-                                <i style="color:green" class="glyphicon glyphicon-ok"> </i>
-                            </button>
-                        }
-                    </td>
-                    <td>@period.Comment</td>
+<div id="schedule">
+    <div class="well well-lg">
+        @using (Html.BeginForm("SaveNewPeriod", "Schedule"))
+        {
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            @Html.Hidden("number", Model.Day.Periods.Count() + 1)
+            @Html.Hidden("dayId", Model.Day.DayID)
+            <label>
+                Длительность <input style="width: 4em;" type="number" name="duration" value="0" />
+            </label>
+            <label>
+                Описание <input type="text" name="description" />
+            </label>
+            <button>
+                <i class="glyphicon glyphicon-plus-sign"></i>
+            </button>
+        }
+    </div>
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Начало</th>
+                    <th>Окончание</th>
+                    <th>Описание</th>
+                    <th></th>
+                    <th>Комментарий</th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (var period in Model.Day.Periods)
+            {
+                    <tr class="@(period.IsMade ? "success" : "main" )">
+                        <td>@period.Number</td>
+                        <td>
+                            @Model.Day.StartTime.AddMinutes(Model.Day.Periods // люто плохо, поменяю
+                        .Where(p => p.Number < period.Number)
+                        .Sum(p => p.Duration)).ToShortTimeString()
+                    </td>
+                    <td>
+                        @Model.Day.StartTime.AddMinutes(Model.Day.Periods.
+                        Where(p => p.Number <= period.Number)
+                        .Sum(p => p.Duration)).ToShortTimeString()
+                </td>
+                <td>@period.Description</td>
+                <td>
+                    @using (Html.BeginForm("ConfirmPeriodEnd", "Schedule"))
+                    {
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        @Html.Hidden("periodId", period.PeriodId)
+                        <button style="visibility: @(period.IsMade ? "hidden" : "visible")">
+                            <i style="color:green" class="glyphicon glyphicon-ok"> </i>
+                        </button>
+                    }
+                </td>
+                <td>
+                    @period.Comment
+                </td>
+            </tr>
                 }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 

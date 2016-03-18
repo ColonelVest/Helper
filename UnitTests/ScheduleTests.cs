@@ -13,59 +13,10 @@ namespace UnitTests
     [TestClass]
     public class UnitTest1
     {
-        private Mock<IRepository> GetPeriodMock()
-        {
-            Mock<IRepository> mock = new Mock<IRepository>();
-            mock.Setup(m => m.Periods).Returns(new List<Period>
-            {
-                new Period { PeriodId = 1, Number = 1, IsMade = false },
-                new Period { PeriodId = 2, Number = 2, IsMade = true },
-                new Period { PeriodId = 3, Number = 3, IsMade = false },
-                new Period { PeriodId = 4, Number = 4, IsMade = true },
-                new Period { PeriodId = 12, Number = 12, IsMade = true },
-                new Period { PeriodId = 21, Number = 21, IsMade = false },
-                new Period { PeriodId = 31, Number = 31, IsMade = false },
-                new Period { PeriodId = 41, Number = 41, IsMade = true }
-            });
-            return mock;
-        }
-
-        private Mock<IRepository> GetDayMock()
-        {
-            Mock<IRepository> mock = new Mock<IRepository>();
-            mock.Setup(m => m.Days).Returns(new List<Day>
-            {
-                new Day
-                {
-                    DayID = 1,
-                    Date = new DateTime(2010, 1, 10),
-                    Periods = new List<Period>
-                    {
-                        new Period { PeriodId = 1, Number = 1, IsMade = false },
-                        new Period { PeriodId = 2, Number = 2, IsMade = true },
-                        new Period { PeriodId = 3, Number = 3, IsMade = false },
-                        new Period { PeriodId = 4, Number = 4, IsMade = true }
-                    }
-                },
-                new Day
-                {
-                    DayID = 2,
-                    Date = new DateTime(2016, 3, 17),
-                    Periods = new List<Period>
-                    {
-                        new Period { PeriodId = 12, Number = 12, IsMade = true },
-                        new Period { PeriodId = 21, Number = 21, IsMade = false },
-                        new Period { PeriodId = 31, Number = 31, IsMade = false },
-                        new Period { PeriodId = 41, Number = 41, IsMade = true }
-                    }
-                }
-            });
-            return mock;
-        }
         [TestMethod]
         public void CanSelectDay()
         {
-            ScheduleController controller = new ScheduleController(GetDayMock().Object);
+            ScheduleController controller = new ScheduleController(GetMocks.GetDayMock().Object);
 
             string date = "10.01.2010";
             ScheduleModel result = (ScheduleModel)controller.Index(date).Model;
@@ -79,7 +30,7 @@ namespace UnitTests
         [TestMethod]
         public void GettingCurrentDateTest()
         {
-            ScheduleController controller = new ScheduleController(GetDayMock().Object);
+            ScheduleController controller = new ScheduleController(GetMocks.GetDayMock().Object);
 
             string date = "10.01.2010";
             DateTime result = (DateTime)controller.GetCurrentDate(date);
@@ -91,7 +42,7 @@ namespace UnitTests
         [TestMethod]
         public void ConfirmingPeriodTest()
         {
-            Mock<IRepository> mock = GetPeriodMock();
+            Mock<IRepository> mock = GetMocks.GetPeriodMock();
             ScheduleController controller = new ScheduleController(mock.Object);
 
             int periodId = 2;
@@ -107,7 +58,7 @@ namespace UnitTests
         [TestMethod]
         public void SavingNewPeriodTest()
         {
-            Mock<IRepository> mock = GetPeriodMock();
+            Mock<IRepository> mock = GetMocks.GetPeriodMock();
             ScheduleController controller = new ScheduleController(mock.Object);
 
             int dayId = 2;
@@ -129,7 +80,7 @@ namespace UnitTests
         [TestMethod]
         public void CreatingScheduleTest()
         {
-            Mock<IRepository> mock = GetDayMock();
+            Mock<IRepository> mock = GetMocks.GetDayMock();
             ScheduleController controller = new ScheduleController(mock.Object);
 
             string url = "/";

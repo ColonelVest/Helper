@@ -101,6 +101,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="CommonTests.cs" />
+    <Compile Include="GetMocks.cs" />
     <Compile Include="ScheduleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
