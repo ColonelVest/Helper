@@ -11,7 +11,7 @@ namespace WebUI.HtmlHelpers
     {
         public static MvcHtmlString PageLinks(this HtmlHelper html, string currentPage, string path)
         {
-            string pageName = currentPage == null ? "schedule" : currentPage.Remove(0, 1);
+            string pageName = currentPage == "/" ? "Schedule" : currentPage.Remove(0, 1);
             Dictionary<string, string> Pages = new Dictionary<string, string>()
             {
                 { "Schedule", "Расписание" },
@@ -25,7 +25,7 @@ namespace WebUI.HtmlHelpers
             foreach (var page in Pages)
             {
                 TagBuilder liTag = new TagBuilder("li");
-                if (page.Key == currentPage.Remove(0, 1))
+                if (page.Key == pageName)
                 {
                     liTag.AddCssClass("active");
                 };
