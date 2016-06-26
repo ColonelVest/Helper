@@ -20,7 +20,7 @@ namespace WebUI.Controllers
             return RedirectPermanent(returnUrl);
         }
 
-        public RedirectResult SaveNewPeriod(Period period, int number, int dayId, string returnUrl)//прочитаю как передавать dayId и number - изменю
+        public RedirectResult SaveNewPeriod(Period period, int number, int dayId, string returnUrl)
         {
             if (ModelState.IsValid)
             {
